@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "Github Framework",
+  "version": "1.0.0",
+  "description": "A new way to sort streams.",
+  "icons": {
+    "16": "assets/imgs/ICONx16.png",
+    "48": "assets/imgs/ICONx48.png",
+    "128": "assets/imgs/ICONx128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://github.com/*",
+        "*://*.github.com/*"
+      ],
+      "js": [
+        "index.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "contextMenus",
+    "unlimitedStorage",
+    "notifications",
+    "storage"
+  ],
+  "homepage_url": "https://github.com/Avery246813579/Github-Framework",
+  "author": "Avery Durrant"
+}
