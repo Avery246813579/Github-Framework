@@ -35,4 +35,19 @@ if(mySplit.length === 2){
         });
 }
 
+fetch('https://raw.githubusercontent.com/Avery246813579/Commservus-Website/master/package.json').then((response) => response.text())
+    .then((text) => {
+        console.dir(text);
+
+        try{
+            console.dir(JSON.parse(text));
+        }catch(e){
+            console.log("NOT JSON");
+        }
+    })
+    .catch((error) => {
+        alert("Internal Error" + JSON.stringify(error));
+    });
+
+
 console.dir(mySplit);
