@@ -1,4 +1,9 @@
-console.log("Test");
+chrome.tabs.onUpdated.addListener(
+    function(tabId, changeInfo, tab) {
+        window.console.log('updated from contentscript');
+    }
+);
+
 
 let split = window.location.toString().split('/');
 let mySplit = [];
@@ -88,7 +93,7 @@ function doStuff(framework){
     let number_summary = document.getElementsByClassName('numbers-summary');
 
     if(typeof number_summary !== "undefined"){
-        number_summary[0].innerHTML += "<li class=\"commits\"> <a data-pjax=\"\" href=\"" + framework["LINK"] + "\"> <svg aria-hidden=\"true\" class=\"octicon octicon-file\" height=\"16\" version=\"1.1\" viewBox=\"0 0 14 16\" width=\"14\"><path fill-rule=\"evenodd\" d=\"M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z\"></path></svg> Framework: <span class=\"num text-emphasized\"> " + framework["FRAME"] + "</span> </a> </li>"
+        number_summary[0].innerHTML += "<li style='min-width: 200px; !important;'> <a data-pjax=\"\" style='min-width: 200px !important;' href=\"" + framework["LINK"] + "\"> <svg aria-hidden=\"true\" class=\"octicon octicon-file\" height=\"16\" version=\"1.1\" viewBox=\"0 0 14 16\" width=\"14\"><path fill-rule=\"evenodd\" d=\"M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z\"></path></svg> Framework: <span class=\"num text-emphasized\"> " + framework["FRAME"] + "</span> </a> </li>"
         // console.dir(number_summary[0].children)
         // number_summary[0].children.push(create("<li class=\"commits\">\n" +
         //     "     <a data-pjax=\"\" href=\"https://facebook.github.io/react-native/\">\n" +
@@ -98,17 +103,6 @@ function doStuff(framework){
         // number_summary[0].appendChild(number_summary[0][2]);
     }
 
-    function create(htmlStr) {
-        var frag = document.createDocumentFragment(),
-            temp = document.createElement('div');
-        temp.innerHTML = htmlStr;
-        while (temp.firstChild) {
-            frag.appendChild(temp.firstChild);
-        }
-        return frag;
-    }
-
-
-    console.log("DOG")
+    console.log("DOG");
     console.dir(number_summary);
 }
