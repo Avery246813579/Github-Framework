@@ -15,6 +15,7 @@
         "*://*.github.com/*"
       ],
       "js": [
+        "assets/jquery-3.2.1.min.js",
         "index.js"
       ],
       "run_at": "document_start"
