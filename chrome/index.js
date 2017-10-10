@@ -1,10 +1,3 @@
-chrome.tabs.onUpdated.addListener(
-    function(tabId, changeInfo, tab) {
-        window.console.log('updated from contentscript');
-    }
-);
-
-
 let split = window.location.toString().split('/');
 let mySplit = [];
 let shouldAdd = false;

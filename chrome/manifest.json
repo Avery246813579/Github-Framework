@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Github Framework",
   "version": "1.0.0",
-  "description": "A new way to sort streams.",
+  "description": "What Frameworks and I using?",
   "icons": {
     "16": "assets/imgs/ICONx16.png",
     "48": "assets/imgs/ICONx48.png",
@@ -28,7 +28,6 @@
     "tabs",
     "contextMenus",
     "unlimitedStorage",
-    "notifications",
     "storage"
   ],
   "homepage_url": "https://github.com/Avery246813579/Github-Framework",
