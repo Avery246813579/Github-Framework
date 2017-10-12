@@ -19,6 +19,7 @@
       ],
       "js": [
         "assets/jquery-3.2.1.min.js",
+        "frameworks.js",
         "index.js"
       ],
       "run_at": "document_start"
@@ -28,6 +29,10 @@
     "tabs",
     "contextMenus",
     "unlimitedStorage",
+    "storage",
+    "activeTab",
+    "http://*/*",
+    "https://*/*",
     "storage"
   ],
   "homepage_url": "https://github.com/Avery246813579/Github-Framework",

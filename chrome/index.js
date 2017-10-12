@@ -2,6 +2,8 @@ let split = window.location.toString().split('/');
 let mySplit = [];
 let shouldAdd = false;
 
+console.log(dog);
+
 for (let i = 0; i < split.length; i++) {
     if (split[i] !== '') {
         if (split[i] === "github.com") {
@@ -10,9 +12,7 @@ for (let i = 0; i < split.length; i++) {
         }
 
         if (shouldAdd) {
-            if (mySplit.length < 2) {
-                mySplit.push(split[i]);
-            }
+            mySplit.push(split[i]);
         }
     }
 }
@@ -32,70 +32,99 @@ let frames = {
     ]
 };
 
-if (mySplit.length === 2) {
+if (mySplit.length >= 2) {
     fetch('https://api.github.com/repos/' + mySplit[0] + '/' + mySplit[1] + '/contents/', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
-    }).then((response) => response.json())
-        .then((responseJson) => {
-            console.dir(responseJson);
-            let dFiles = responseJson;
+    }).then(function (response) {
+        response.json().then((responseJson) => {
+                console.dir(responseJson);
+                let dFiles = responseJson;
 
-            for (let j = 0; j < dFiles.length; j++) {
-                let currentFrame = frames[dFiles[j]['name'].toUpperCase()];
-                let breakOut = false;
+                for (let j = 0; j < dFiles.length; j++) {
+                    let currentFrame = frames[dFiles[j]['name'].toUpperCase()];
+                    let breakOut = false;
 
-                if (typeof currentFrame !== "undefined") {
-                    fetch(dFiles[j]['download_url']).then((response) => response.text())
-                        .then((text) => {
-                            for (let key of currentFrame) {
-                                if (text.includes(key['CONTAINS'])) {
-                                    doStuff(key);
-                                    breakOut = true;
-                                    break;
+                    if (typeof currentFrame !== "undefined") {
+                        fetch(dFiles[j]['download_url']).then((response) => response.text())
+                            .then((text) => {
+                                for (let key of currentFrame) {
+                                    if (text.includes(key['CONTAINS'])) {
+                                        doStuff(key);
+                                        breakOut = true;
+                                        break;
+                                    }
                                 }
-                            }
 
-                            try {
-                                console.dir(JSON.parse(text));
-                            } catch (e) {
-                                console.log("NOT JSON");
-                            }
-                        })
-                        .catch((error) => {
-                            alert("Internal Error" + JSON.stringify(error));
-                        });
-                }
+                                try {
+                                    console.dir(JSON.parse(text));
+                                } catch (e) {
+                                    console.log("NOT JSON");
+                                }
+                            })
+                            .catch((error) => {
+                                alert("Internal Error" + JSON.stringify(error));
+                            });
+                    }
 
-                if (breakOut) {
-                    break;
+                    if (breakOut) {
+                        break;
+                    }
                 }
-            }
-        })
+            })
+    })
         .catch((error) => {
             alert("Internal Error" + JSON.stringify(error));
         });
 }
 
-function doStuff(framework){
+let dwork;
+
+function doStuff(framework) {
     console.log("FRAMEWORK IS: " + framework['FRAME']);
+    dwork = framework;
 
-    let number_summary = document.getElementsByClassName('numbers-summary');
+    let number_summary = document.getElementById('topics-list-container');
 
-    if(typeof number_summary !== "undefined"){
-        number_summary[0].innerHTML += "<li style='min-width: 200px; !important;'> <a data-pjax=\"\" style='min-width: 200px !important;' href=\"" + framework["LINK"] + "\"> <svg aria-hidden=\"true\" class=\"octicon octicon-file\" height=\"16\" version=\"1.1\" viewBox=\"0 0 14 16\" width=\"14\"><path fill-rule=\"evenodd\" d=\"M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z\"></path></svg> Framework: <span class=\"num text-emphasized\"> " + framework["FRAME"] + "</span> </a> </li>"
-        // console.dir(number_summary[0].children)
-        // number_summary[0].children.push(create("<li class=\"commits\">\n" +
-        //     "     <a data-pjax=\"\" href=\"https://facebook.github.io/react-native/\">\n" +
-        //     "     <svg aria-hidden=\"true\" class=\"octicon octicon-file\" height=\"16\" version=\"1.1\" viewBox=\"0 0 14 16\" width=\"14\"><path fill-rule=\"evenodd\" d=\"M8 13H6V6h5v2H8v5zM7 1C4.81 1 2.87 2.02 1.59 3.59L0 2v4h4L2.5 4.5C3.55 3.17 5.17 2.3 7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-.34.03-.67.09-1H.08C.03 7.33 0 7.66 0 8c0 3.86 3.14 7 7 7s7-3.14 7-7-3.14-7-7-7z\"></path></svg>\n" +
-        //     "     Framework: <span class=\"num text-emphasized\">React</span></a>\n" +
-        //     "     </li>"))
-        // number_summary[0].appendChild(number_summary[0][2]);
+    if (typeof number_summary === "undefined" || number_summary === null) {
+        return false;
     }
+
+    let group = number_summary.getElementsByClassName('list-topics-container');
+
+
+    if (group.length < 1) {
+        number_summary.innerHTML = "";
+        number_summary.innerHTML += '<div class="list-topics-container f6 mt-1">';
+        number_summary.innerHTML += '<a href="/search?q=topic%3Apython3&amp;type=Repositories" style="background-color: aquamarine" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:python3">' + framework['FRAME'] + '</a>' + number_summary.innerHTML;
+        number_summary.innerHTML += '<button type="button" class="btn-link f6 lh-condensed js-repo-topics-form-toggle js-details-target" aria-expanded="false">Add topics</button></div>';
+    } else {
+        group[0].innerHTML = '<a href="/search?q=topic%3Apython3&amp;type=Repositories" class="topic-tag topic-tag-link" data-ga-click="Topic, repository page" data-octo-click="topic_click" data-octo-dimensions="topic:python3">' + framework['FRAME'] + '</a>' + group[0].innerHTML;
+    }
+
 
     console.log("DOG");
     console.dir(number_summary);
+
+    return true;
 }
+
+// store url on load
+let currentPage = window.location.href;
+
+// listen for changes
+// setInterval(function () {
+//     if (currentPage !== window.location.href) {
+//         // page has changed, set new page as 'current'
+//         currentPage = window.location.href;
+//
+//         // do your thing..
+//         console.log("HERE" + dwork);
+//         setTimeout(function () {
+//             doStuff(dwork);
+//         }, 100)
+//     }
+// }, 500);
